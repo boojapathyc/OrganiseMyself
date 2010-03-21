@@ -1,4 +1,4 @@
-package com.rajiv.intelligence;
+package com.rajiv.intelligence.graph;
 
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
@@ -57,6 +57,7 @@ public class IntelligentGraph {
     public Collection<NavigationPath> getOutEdges(ActivityNode node) {
         return this.directedGraph.getOutEdges(node);
     }
+
     public ActivityNode getDest(NavigationPath path) {
         return this.directedGraph.getDest(path);
     }
@@ -68,5 +69,9 @@ public class IntelligentGraph {
             weight = edge.getWeight();
         }
         return weight;
+    }
+
+    public Collection<ActivityNode> getVertices() {
+        return directedGraph.getVertices();
     }
 }

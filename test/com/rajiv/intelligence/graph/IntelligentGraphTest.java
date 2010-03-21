@@ -1,4 +1,4 @@
-package com.rajiv.intelligence;
+package com.rajiv.intelligence.graph;
 
 import org.junit.Before;
 import org.junit.Test;

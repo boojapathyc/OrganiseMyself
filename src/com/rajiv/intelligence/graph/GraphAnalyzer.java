@@ -1,4 +1,4 @@
-package com.rajiv.intelligence;
+package com.rajiv.intelligence.graph;
 
 import java.util.Collection;
 
@@ -12,7 +12,6 @@ public class GraphAnalyzer {
             Collection<NavigationPath> navigationPaths = intelligentGraph.getOutEdges(node);
             return selectMax(navigationPaths, on(NavigationPath.class).getWeight());
         }
-
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.rajiv.intelligence;
+package com.rajiv.intelligence.graph;
 
 public class NavigationPath {
     private Integer weight;

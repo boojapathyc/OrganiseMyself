@@ -1,15 +1,13 @@
-package com.rajiv.intelligence;
+package com.rajiv.intelligence.graph;
 
 public class ActivityNode {
     private RequestData data;
 
     public ActivityNode(RequestData data) {
-        //To change body of created methods use File | Settings | File Templates.
         this.data = data;
     }
 
     public ActivityNode() {
-        //To change body of created methods use File | Settings | File Templates.
     }
 
     @Override
@@ -27,5 +25,9 @@ public class ActivityNode {
     @Override
     public int hashCode() {
         return data != null ? data.hashCode() : 0;
-    }    
+    }
+
+    public RequestData getRequestData() {
+        return data;
+    }
 }

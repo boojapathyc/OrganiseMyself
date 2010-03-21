@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="/*.form" class="com.rajiv.intelligence.web.SimpleController">
+        <constructor-arg ref="graphAnalyzer"/>
+        <constructor-arg ref="intelligentGraph"/>
+    </bean>
+
+    <bean name="graphAnalyzer" class="com.rajiv.intelligence.graph.GraphAnalyzer"/>
+
+    <bean name="intelligentGraph" class="com.rajiv.intelligence.graph.IntelligentGraph"/>
+
+</beans>

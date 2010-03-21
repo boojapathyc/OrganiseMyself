@@ -1,4 +1,4 @@
-package com.rajiv.intelligence;
+package com.rajiv.intelligence.graph;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,6 @@ public class GraphAnalyzerTest {
     public void setUp() {
         intelligentGraph = new IntelligentGraph();
     }
-
 
     @Test
     public void shouldReturnTopNavigatedPathsForVertex() {
@@ -47,12 +46,10 @@ public class GraphAnalyzerTest {
         assertEquals(expectedVisited_3Max, analyzer.getMaxNavigationPath(intelligentGraph, visited_3).getWeight());
         assertEquals(expectedVisited_4Max, analyzer.getMaxNavigationPath(intelligentGraph, visited_4).getWeight());
         ActivityNode node = visited_1;
-        for(int i=0; i<2;i++) {
-              node = intelligentGraph.getDest(analyzer.getMaxNavigationPath(intelligentGraph, node));
+        for (int i = 0; i < 2; i++) {
+            node = intelligentGraph.getDest(analyzer.getMaxNavigationPath(intelligentGraph, node));
         }
         assertEquals(expectedVisited_4Max, analyzer.getMaxNavigationPath(intelligentGraph, node).getWeight());
-
-
     }
 
     private void addPath(ActivityNode source, ActivityNode visited, int count) {
