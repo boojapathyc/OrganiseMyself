@@ -30,4 +30,8 @@ public class ActivityNode {
     public RequestData getRequestData() {
         return data;
     }
+
+    public String getName() {
+        return data.getId();
+    }
 }

@@ -4,15 +4,17 @@ import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class IntelligentGraph {
 
     private DirectedGraph<ActivityNode, NavigationPath> directedGraph;
     private ActivityNode rootNode;
 
-    public IntelligentGraph() {
+    public IntelligentGraph(String rootNodeName) {
         this.directedGraph = new DirectedSparseGraph<ActivityNode, NavigationPath>();
-        rootNode = new ActivityNode();
+        rootNode = new ActivityNode(new RequestData(rootNodeName));
         directedGraph.addVertex(rootNode);
     }
 
@@ -21,29 +23,27 @@ public class IntelligentGraph {
     }
 
     public void addNode(ActivityNode source, ActivityNode visited) {
-        ActivityNode sourceToConnect = source;
+        if (source == null) {
+            source = rootNode;
+        }
 
-        if (sourceToConnect == null) {
-            sourceToConnect = rootNode;
+        if (visited == null) {
+            visited = rootNode;
         }
 
         if (!containsVertex(visited)) {
             directedGraph.addVertex(visited);
         }
 
-        addNavigationPath(sourceToConnect, visited);
-
+        addNavigationPath(source, visited);
     }
 
     private void addNavigationPath(ActivityNode source, ActivityNode visited) {
         NavigationPath navigationPath = directedGraph.findEdge(source, visited);
-
         if (navigationPath == null) {
-            navigationPath = new NavigationPath();
+            navigationPath = new NavigationPath(source.getName() + " to " + visited.getName());
             directedGraph.addEdge(navigationPath, source, visited);
         }
-
-        navigationPath.incrementWeight();
     }
 
     public Boolean containsVertex(ActivityNode activityNode) {
@@ -58,7 +58,15 @@ public class IntelligentGraph {
         return this.directedGraph.getOutEdges(node);
     }
 
-    public ActivityNode getDest(NavigationPath path) {
+    public Collection<ActivityNode> getDestinations(ActivityNode source) {
+        Set<ActivityNode> targetNodes = new HashSet<ActivityNode>();
+        for (NavigationPath path : directedGraph.getOutEdges(source)) {
+            targetNodes.add(directedGraph.getDest(path));
+        }
+        return targetNodes;
+    }
+
+    public ActivityNode getDestination(NavigationPath path) {
         return this.directedGraph.getDest(path);
     }
 
@@ -73,5 +81,13 @@ public class IntelligentGraph {
 
     public Collection<ActivityNode> getVertices() {
         return directedGraph.getVertices();
+    }
+
+    public void incrementWeight(ActivityNode source, ActivityNode visited) {
+        NavigationPath navigationPath = directedGraph.findEdge(source, visited);
+
+        if (navigationPath != null) {
+            navigationPath.incrementWeight();
+        }
     }
 }

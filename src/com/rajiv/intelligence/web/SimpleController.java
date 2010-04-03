@@ -1,21 +1,20 @@
 package com.rajiv.intelligence.web;
 
-import com.rajiv.intelligence.graph.*;
+import com.rajiv.intelligence.graph.GraphController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleController extends MultiActionController {
 
-    private GraphAnalyzer graphAnalyzer;
-    private IntelligentGraph intelligentGraph;
+    private GraphController graphController;
 
-
-    public SimpleController(GraphAnalyzer graphAnalyzer, IntelligentGraph intelligentGraph) {
-        this.graphAnalyzer = graphAnalyzer;
-        this.intelligentGraph = intelligentGraph;
+    public SimpleController(GraphController graphController) {
+        this.graphController = graphController;
     }
 
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -35,32 +34,13 @@ public class SimpleController extends MultiActionController {
     }
 
     private ModelAndView writeAndRedirect(HttpServletRequest request, String currentPageId) {
-        writeNavigationInformation(request, currentPageId);
-        return new ModelAndView(currentPageId + ".jsp");
-    }
-
-    private void writeNavigationInformation(HttpServletRequest request, String currentPageId) {
-        System.out.println("page i am at :" + currentPageId);
-        ActivityNode sourceNode = null;
-        RequestData sourceData;
         String sourcePage = request.getParameter("sourcePage");
-        if (sourcePage != null) {
-            sourceData = requestData(sourcePage);
-            sourceNode = new ActivityNode(sourceData);
-        }
-        ActivityNode visited = activityNode(currentPageId);
-        intelligentGraph.addNode(sourceNode, visited);
-        NavigationPath path = graphAnalyzer.getMaxNavigationPath(intelligentGraph, visited);
-        if (path != null)
-            System.out.println("i usually go to this place from here :" + intelligentGraph.getDest(path).getRequestData().getId());
-        System.out.println("here   " + intelligentGraph.getVertices().size());
-    }
-
-    private ActivityNode activityNode(String id) {
-        return new ActivityNode(requestData(id));
-    }
-
-    private RequestData requestData(String id) {
-        return new RequestData(id);
+        if (sourcePage == null) sourcePage = "index";
+        String mostNavigatedPage = graphController.maxNavigatedPage(sourcePage, currentPageId);
+        Map<String, Object> analysisMap = new HashMap<String, Object>();
+        analysisMap.put("MOST_NAV_PAGE", mostNavigatedPage);
+        analysisMap.put("SOURCE_PAGE", currentPageId);
+        analysisMap.put("TARGET_PAGES", graphController.createTargetPathsFromGraph(currentPageId));
+        return new ModelAndView(currentPageId + ".jsp", analysisMap);
     }
 }

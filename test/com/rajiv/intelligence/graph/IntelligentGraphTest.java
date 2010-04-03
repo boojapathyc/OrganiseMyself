@@ -12,7 +12,7 @@ public class IntelligentGraphTest {
 
     @Before
     public void setUp() {
-        intelligentGraph = new IntelligentGraph();
+        intelligentGraph = new IntelligentGraph("index");
     }
 
     @Test

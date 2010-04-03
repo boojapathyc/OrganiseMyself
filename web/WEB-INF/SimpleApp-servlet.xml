@@ -4,12 +4,25 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="/*.form" class="com.rajiv.intelligence.web.SimpleController">
-        <constructor-arg ref="graphAnalyzer"/>
-        <constructor-arg ref="intelligentGraph"/>
+        <constructor-arg ref="graphInitializer"/>
+    </bean>
+
+    <bean name="intelligentGraph" class="com.rajiv.intelligence.graph.IntelligentGraph">
+        <constructor-arg value="index"/>
     </bean>
 
     <bean name="graphAnalyzer" class="com.rajiv.intelligence.graph.GraphAnalyzer"/>
 
-    <bean name="intelligentGraph" class="com.rajiv.intelligence.graph.IntelligentGraph"/>
+    <bean name="graphInitializer" class="com.rajiv.intelligence.graph.GraphController">
+        <constructor-arg ref="intelligentGraph"/>
+        <constructor-arg ref="graphAnalyzer"/>
+        <constructor-arg>
+            <list>
+                <value>page1</value>
+                <value>page2</value>
+                <value>page3</value>
+            </list>
+        </constructor-arg>
+    </bean>
 
 </beans>

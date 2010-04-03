@@ -12,7 +12,7 @@ public class GraphAnalyzerTest {
 
     @Before
     public void setUp() {
-        intelligentGraph = new IntelligentGraph();
+        intelligentGraph = new IntelligentGraph("index");
     }
 
     @Test
@@ -47,7 +47,7 @@ public class GraphAnalyzerTest {
         assertEquals(expectedVisited_4Max, analyzer.getMaxNavigationPath(intelligentGraph, visited_4).getWeight());
         ActivityNode node = visited_1;
         for (int i = 0; i < 2; i++) {
-            node = intelligentGraph.getDest(analyzer.getMaxNavigationPath(intelligentGraph, node));
+            node = intelligentGraph.getDestination(analyzer.getMaxNavigationPath(intelligentGraph, node));
         }
         assertEquals(expectedVisited_4Max, analyzer.getMaxNavigationPath(intelligentGraph, node).getWeight());
     }
