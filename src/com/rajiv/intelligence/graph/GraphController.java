@@ -1,5 +1,7 @@
 package com.rajiv.intelligence.graph;
 
+import com.rajiv.model.PageData;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,9 +14,9 @@ public class GraphController {
 
     private IntelligentGraph intelligentGraph;
     private GraphAnalyzer graphAnalyzer;
-    private Map<String, String> pages;
+    private Map<String, PageData> pages;
 
-    public GraphController(IntelligentGraph intelligentGraph, GraphAnalyzer graphAnalyzer, Map<String, String> pages) {
+    public GraphController(IntelligentGraph intelligentGraph, GraphAnalyzer graphAnalyzer, Map<String, PageData> pages) {
         this.intelligentGraph = intelligentGraph;
         this.graphAnalyzer = graphAnalyzer;
         this.pages = pages;
@@ -33,12 +35,12 @@ public class GraphController {
         }
     }
 
-    private ActivityNode activityNode(String page, String content) {
-        return new ActivityNode(new RequestData(page), content);
+    private ActivityNode activityNode(String page, PageData pageData) {
+        return new ActivityNode(new RequestData(page), pageData);
     }
 
     private ActivityNode activityNode(String page) {
-        return new ActivityNode(new RequestData(page), "");
+        return new ActivityNode(new RequestData(page), new PageData());
     }
 
     public String maxNavigatedPage(String sourcePage, String currentPageId) {
@@ -58,12 +60,14 @@ public class GraphController {
         return null;
     }
 
-    public Map<String, String> createTargetPathsFromGraph(String currentPage) {
+    public Map<String, ActivityNode> createTargetPathsFromGraph(String currentPage) {
         ActivityNode sourceNode = activityNode(currentPage);
         Collection<ActivityNode> sortedTargetNodes = intelligentGraph.sortDestinationsOnEdgeWeight(sourceNode);
-        Map<String, String> sortedTargetWithContent = new LinkedHashMap<String, String>();
-        for (ActivityNode node : sortedTargetNodes) {
-            sortedTargetWithContent.put(node.getName(), node.getContent());
+        Map<String, ActivityNode> sortedTargetWithContent = new LinkedHashMap<String, ActivityNode>();
+        int targetNodeIndex = 0;
+        for (ActivityNode targetNode : sortedTargetNodes) {
+            targetNodeIndex++;
+            sortedTargetWithContent.put(targetNode.getName(), intelligentGraph.getProcessedNode(sourceNode, targetNode, targetNodeIndex));
         }
         return sortedTargetWithContent;
     }

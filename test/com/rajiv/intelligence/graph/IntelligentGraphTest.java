@@ -1,5 +1,6 @@
 package com.rajiv.intelligence.graph;
 
+import com.rajiv.model.PageData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ public class IntelligentGraphTest {
 
     @Before
     public void setUp() {
-        intelligentGraph = new IntelligentGraph("index");
+        intelligentGraph = new IntelligentGraph("index", 0L);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class IntelligentGraphTest {
     @Test
     public void shouldNotDuplicateVertex() {
         ActivityNode visited = TestCommon.getNewActivityNode();
-        ActivityNode source = new ActivityNode(new RequestData(), "");
+        ActivityNode source = new ActivityNode(new RequestData(), new PageData());
 
         intelligentGraph.addNode(source, visited);
         assertTrue(intelligentGraph.containsVertex(visited));
@@ -67,7 +68,7 @@ public class IntelligentGraphTest {
     @Test
     public void shouldIncrementNavigationPathWeight() {
         ActivityNode visited = TestCommon.getNewActivityNode();
-        ActivityNode source = new ActivityNode(new RequestData(), "");
+        ActivityNode source = new ActivityNode(new RequestData(), new PageData());
         Integer navigationCount = 5;
         for (int i = 0; i < navigationCount; i++) {
             intelligentGraph.addNode(source, visited);

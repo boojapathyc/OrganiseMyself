@@ -1,5 +1,6 @@
 package com.rajiv.intelligence.graph;
 
+import com.rajiv.model.PageData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,12 +13,12 @@ public class GraphAnalyzerTest {
 
     @Before
     public void setUp() {
-        intelligentGraph = new IntelligentGraph("index");
+        intelligentGraph = new IntelligentGraph("index", 0L);
     }
 
     @Test
     public void shouldReturnTopNavigatedPathsForVertex() {
-        ActivityNode source = new ActivityNode(new RequestData(), "");
+        ActivityNode source = new ActivityNode(new RequestData(), new PageData());
 
         ActivityNode visited_1 = TestCommon.getNewActivityNode();
         ActivityNode visited_2 = TestCommon.getNewActivityNode();

@@ -1,5 +1,6 @@
 package com.rajiv.intelligence.graph;
 
+import com.rajiv.model.PageData;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
@@ -12,10 +13,14 @@ public class IntelligentGraph {
 
     private DirectedGraph<ActivityNode, NavigationPath> directedGraph;
     private ActivityNode rootNode;
+    private Long noOfNavigations;
+    private Long thresholdNavigationsForContentTruncation;
 
-    public IntelligentGraph(String rootNodeName) {
+    public IntelligentGraph(String rootNodeName, Long thresholdNavigationsForContentTruncation) {
         this.directedGraph = new DirectedSparseGraph<ActivityNode, NavigationPath>();
-        rootNode = new ActivityNode(new RequestData(rootNodeName));
+        this.thresholdNavigationsForContentTruncation = thresholdNavigationsForContentTruncation;
+        noOfNavigations = 0L;
+        rootNode = new ActivityNode(new RequestData(rootNodeName), new PageData("Home", "images/home.jpeg"));
         directedGraph.addVertex(rootNode);
     }
 
@@ -86,7 +91,7 @@ public class IntelligentGraph {
 
     public void incrementWeight(ActivityNode source, ActivityNode visited) {
         NavigationPath navigationPath = directedGraph.findEdge(source, visited);
-
+        noOfNavigations++;
         if (navigationPath != null) {
             navigationPath.incrementWeight();
         }
@@ -104,5 +109,15 @@ public class IntelligentGraph {
         }
         Collections.reverse(sortedNodes);
         return sortedNodes;
+    }
+
+    public ActivityNode getProcessedNode(ActivityNode sourceNode, ActivityNode targetNode, int targetNodeIndex) {
+        ActivityNode copiedNode = targetNode;
+        if (noOfNavigations >= thresholdNavigationsForContentTruncation) {
+            if (getWeight(sourceNode, targetNode) == 0) {
+                copiedNode = targetNode.makeCopyWithoutContent();
+            }
+        }
+        return copiedNode;
     }
 }

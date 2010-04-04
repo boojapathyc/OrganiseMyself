@@ -1,16 +1,20 @@
 package com.rajiv.intelligence.graph;
 
+import com.rajiv.model.PageData;
+
 public class ActivityNode {
     private RequestData data;
     private String content;
+    private String displayName;
 
-    public ActivityNode(RequestData data, String content) {
+    public ActivityNode(RequestData data, PageData pageData) {
         this.data = data;
-        this.content = content;
+        this.content = pageData.getContent();
+        this.displayName = pageData.getName();
     }
 
     public ActivityNode(RequestData data) {
-        this(data, "");
+        this(data, new PageData());
     }
 
     @Override
@@ -40,5 +44,13 @@ public class ActivityNode {
 
     public String getContent() {
         return content;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public ActivityNode makeCopyWithoutContent() {
+        return new ActivityNode(data, new PageData(displayName, null));
     }
 }

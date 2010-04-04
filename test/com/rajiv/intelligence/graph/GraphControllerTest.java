@@ -1,5 +1,6 @@
 package com.rajiv.intelligence.graph;
 
+import com.rajiv.model.PageData;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,12 +12,12 @@ public class GraphControllerTest {
 
     @Test
     public void testCreateVertices() {
-        IntelligentGraph intelligentGraph = new IntelligentGraph("index");
-        Map<String, String> pages = new HashMap<String, String>() {
+        IntelligentGraph intelligentGraph = new IntelligentGraph("index", 0L);
+        Map<String, PageData> pages = new HashMap<String, PageData>() {
             {
-                put("a", "abcd");
-                put("b", "abcd");
-                put("c", "abcd");
+                put("a", new PageData("abcd", "abcd"));
+                put("b", new PageData("abcd", "abcd"));
+                put("c", new PageData("abcd", "abcd"));
             }
         };
         GraphAnalyzer graphAnalyzer = new GraphAnalyzer();
