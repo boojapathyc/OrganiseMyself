@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<head><title>Page 2</title></head>
-
+<head><title>Board Of Cricket Control India</title></head>
 <body>
-<h1>Page 2</h1>
+<h1>Welcome to BCCI Home</h1>
 
 <jsp:include page="mostNavigated.jsp"/>
 

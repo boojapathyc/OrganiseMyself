@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<head><title>Page 1</title></head>
+<head><title>Cricket Australia</title></head>
 <body>
-<h1>Page 1</h1>
+<h1>Welcome to Cricket Australia Home</h1>
 
 <jsp:include page="mostNavigated.jsp"/>
 

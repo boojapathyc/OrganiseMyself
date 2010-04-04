@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
-<head><title>Page 4</title></head>
+<head><title>Pakistan Cricket Board</title></head>
 <body>
-<h1>Page 4</h1>
+
+<h1>Welcome to PCB</h1>
 
 
 <jsp:include page="mostNavigated.jsp"/>
