@@ -17,11 +17,13 @@
         <constructor-arg ref="intelligentGraph"/>
         <constructor-arg ref="graphAnalyzer"/>
         <constructor-arg>
-            <list>
-                <value>page1</value>
-                <value>page2</value>
-                <value>page3</value>
-            </list>
+            <map>
+                <entry key="page1" value="images/image1.jpeg"/>
+                <entry key="page2" value="images/image2.jpeg"/>
+                <entry key="page3" value="images/image3.jpeg"/>
+                <entry key="page4" value="images/image4.jpeg"/>
+                <entry key="page5" value="images/image5.jpeg"/>
+            </map>
         </constructor-arg>
     </bean>
 

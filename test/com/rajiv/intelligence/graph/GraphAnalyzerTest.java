@@ -17,7 +17,7 @@ public class GraphAnalyzerTest {
 
     @Test
     public void shouldReturnTopNavigatedPathsForVertex() {
-        ActivityNode source = new ActivityNode(new RequestData());
+        ActivityNode source = new ActivityNode(new RequestData(), "");
 
         ActivityNode visited_1 = TestCommon.getNewActivityNode();
         ActivityNode visited_2 = TestCommon.getNewActivityNode();

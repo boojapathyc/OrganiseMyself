@@ -2,12 +2,15 @@ package com.rajiv.intelligence.graph;
 
 public class ActivityNode {
     private RequestData data;
+    private String content;
 
-    public ActivityNode(RequestData data) {
+    public ActivityNode(RequestData data, String content) {
         this.data = data;
+        this.content = content;
     }
 
-    public ActivityNode() {
+    public ActivityNode(RequestData data) {
+        this(data, "");
     }
 
     @Override
@@ -33,5 +36,9 @@ public class ActivityNode {
 
     public String getName() {
         return data.getId();
+    }
+
+    public String getContent() {
+        return content;
     }
 }

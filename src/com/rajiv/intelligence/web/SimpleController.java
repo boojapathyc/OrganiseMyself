@@ -33,6 +33,14 @@ public class SimpleController extends MultiActionController {
         return writeAndRedirect(request, "page3");
     }
 
+    public ModelAndView page4(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return writeAndRedirect(request, "page4");
+    }
+
+    public ModelAndView page5(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return writeAndRedirect(request, "page5");
+    }
+
     private ModelAndView writeAndRedirect(HttpServletRequest request, String currentPageId) {
         String sourcePage = request.getParameter("sourcePage");
         if (sourcePage == null) sourcePage = "index";

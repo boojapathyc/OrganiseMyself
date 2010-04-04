@@ -3,9 +3,10 @@ package com.rajiv.intelligence.graph;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
+import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.sort;
 
 public class IntelligentGraph {
 
@@ -89,5 +90,19 @@ public class IntelligentGraph {
         if (navigationPath != null) {
             navigationPath.incrementWeight();
         }
+    }
+
+    public Collection<ActivityNode> sortDestinationsOnEdgeWeight(ActivityNode sourceNode) {
+
+        Collection<NavigationPath> sortedEdges = sort(directedGraph.getOutEdges(sourceNode),
+                on(NavigationPath.class).getWeight());
+
+        List<ActivityNode> sortedNodes = new ArrayList<ActivityNode>();
+
+        for (NavigationPath edge : sortedEdges) {
+            sortedNodes.add(directedGraph.getDest(edge));
+        }
+        Collections.reverse(sortedNodes);
+        return sortedNodes;
     }
 }

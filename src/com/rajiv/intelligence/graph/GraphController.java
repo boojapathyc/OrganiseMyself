@@ -1,18 +1,20 @@
 package com.rajiv.intelligence.graph;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import static ch.lambdaj.Lambda.*;
+import static ch.lambdaj.Lambda.filter;
 import static org.hamcrest.CoreMatchers.not;
 
 public class GraphController {
 
     private IntelligentGraph intelligentGraph;
     private GraphAnalyzer graphAnalyzer;
-    private List<String> pages;
+    private Map<String, String> pages;
 
-    public GraphController(IntelligentGraph intelligentGraph, GraphAnalyzer graphAnalyzer, List<String> pages) {
+    public GraphController(IntelligentGraph intelligentGraph, GraphAnalyzer graphAnalyzer, Map<String, String> pages) {
         this.intelligentGraph = intelligentGraph;
         this.graphAnalyzer = graphAnalyzer;
         this.pages = pages;
@@ -20,23 +22,26 @@ public class GraphController {
     }
 
     void createVertices() {
-        for (String sourcePage : pages) {
-            ActivityNode sourceNode = activityNode(sourcePage);
+        for (String sourcePage : pages.keySet()) {
+            ActivityNode sourceNode = activityNode(sourcePage, pages.get(sourcePage));
             intelligentGraph.addNode(null, sourceNode);
             intelligentGraph.addNode(sourceNode, null);
-            List<String> targetPages = filter(not(sourcePage), pages);
+            List<String> targetPages = filter(not(sourcePage), pages.keySet());
             for (String targetPage : targetPages) {
-                intelligentGraph.addNode(sourceNode, activityNode(targetPage));
+                intelligentGraph.addNode(sourceNode, activityNode(targetPage, pages.get(targetPage)));
             }
         }
     }
 
+    private ActivityNode activityNode(String page, String content) {
+        return new ActivityNode(new RequestData(page), content);
+    }
+
     private ActivityNode activityNode(String page) {
-        return new ActivityNode(new RequestData(page));
+        return new ActivityNode(new RequestData(page), "");
     }
 
     public String maxNavigatedPage(String sourcePage, String currentPageId) {
-
         ActivityNode sourceNode = null;
         if (sourcePage != null) {
             sourceNode = activityNode(sourcePage);
@@ -49,12 +54,17 @@ public class GraphController {
                     " :" + path.getWeight());
             return intelligentGraph.getDestination(path).getRequestData().getId();
         }
+
         return null;
     }
 
-    public List<String> createTargetPathsFromGraph(String currentPage) {
+    public Map<String, String> createTargetPathsFromGraph(String currentPage) {
         ActivityNode sourceNode = activityNode(currentPage);
-        Collection<ActivityNode> targetNodes = intelligentGraph.getDestinations(sourceNode);
-        return extract(targetNodes, on(ActivityNode.class).getName());
+        Collection<ActivityNode> sortedTargetNodes = intelligentGraph.sortDestinationsOnEdgeWeight(sourceNode);
+        Map<String, String> sortedTargetWithContent = new LinkedHashMap<String, String>();
+        for (ActivityNode node : sortedTargetNodes) {
+            sortedTargetWithContent.put(node.getName(), node.getContent());
+        }
+        return sortedTargetWithContent;
     }
 }

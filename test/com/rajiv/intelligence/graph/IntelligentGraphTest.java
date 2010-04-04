@@ -36,7 +36,7 @@ public class IntelligentGraphTest {
     @Test
     public void shouldNotDuplicateVertex() {
         ActivityNode visited = TestCommon.getNewActivityNode();
-        ActivityNode source = new ActivityNode(new RequestData());
+        ActivityNode source = new ActivityNode(new RequestData(), "");
 
         intelligentGraph.addNode(source, visited);
         assertTrue(intelligentGraph.containsVertex(visited));
@@ -67,7 +67,7 @@ public class IntelligentGraphTest {
     @Test
     public void shouldIncrementNavigationPathWeight() {
         ActivityNode visited = TestCommon.getNewActivityNode();
-        ActivityNode source = new ActivityNode(new RequestData());
+        ActivityNode source = new ActivityNode(new RequestData(), "");
         Integer navigationCount = 5;
         for (int i = 0; i < navigationCount; i++) {
             intelligentGraph.addNode(source, visited);

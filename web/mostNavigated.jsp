@@ -4,7 +4,10 @@
 <ol>
     <c:forEach items="${TARGET_PAGES}" var="pageLink">
         <li>
-            <a href="<c:out value="${pageLink}"/>.form?sourcePage=<c:out value="${SOURCE_PAGE}"/>">${pageLink}</a>
+            <c:if test="${pageLink.value != null}">
+                <img src="<c:out value="${pageLink.value}" />" alt="${pageLink.key}"/>
+            </c:if>
+            <a href="<c:out value="${pageLink.key}"/>.form?sourcePage=<c:out value="${SOURCE_PAGE}"/>">${pageLink.key}</a>
         </li>
     </c:forEach>
 </ol>
