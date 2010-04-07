@@ -4,17 +4,18 @@ import com.rajiv.model.PageData;
 
 public class ActivityNode {
     private RequestData data;
+    private Long thresholdNavigationsForContentTruncation;
     private String content;
     private String displayName;
+    private Long noOfNavigations = 0L;
+    private Integer thresholdWeightForContentTruncation = 0;
 
-    public ActivityNode(RequestData data, PageData pageData) {
+    public ActivityNode(RequestData data, PageData pageData, Long thresholdNavigationsForContentTruncation, Integer thresholdWeightForContentTruncation) {
         this.data = data;
+        this.thresholdNavigationsForContentTruncation = thresholdNavigationsForContentTruncation;
+        this.thresholdWeightForContentTruncation = thresholdWeightForContentTruncation;
         this.content = pageData.getContent();
         this.displayName = pageData.getName();
-    }
-
-    public ActivityNode(RequestData data) {
-        this(data, new PageData());
     }
 
     @Override
@@ -51,6 +52,26 @@ public class ActivityNode {
     }
 
     public ActivityNode makeCopyWithoutContent() {
-        return new ActivityNode(data, new PageData(displayName, null));
+        return new ActivityNode(data, new PageData(displayName, null), thresholdNavigationsForContentTruncation, thresholdWeightForContentTruncation);
+    }
+
+    public void recordNavigation() {
+        noOfNavigations++;
+    }
+
+
+    public ActivityNode getProcessedContent(boolean shouldTruncateContent, Integer pathWeight) {
+        if (shouldTruncateContent && pathWeight <= thresholdWeightForContentTruncation)
+            return makeCopyWithoutContent();
+
+        return this;
+    }
+
+    public boolean isNavigatedAboveThreshold() {
+        return noOfNavigations >= thresholdNavigationsForContentTruncation;
+    }
+
+    public Long getNoOfNavigations() {
+        return noOfNavigations;
     }
 }

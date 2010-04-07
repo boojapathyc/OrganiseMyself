@@ -13,12 +13,12 @@ public class GraphAnalyzerTest {
 
     @Before
     public void setUp() {
-        intelligentGraph = new IntelligentGraph("index", 0L);
+        intelligentGraph = new IntelligentGraph("index", 0L, 0);
     }
 
     @Test
     public void shouldReturnTopNavigatedPathsForVertex() {
-        ActivityNode source = new ActivityNode(new RequestData(), new PageData());
+        ActivityNode source = new ActivityNode(new RequestData(), new PageData(), 10L, 0);
 
         ActivityNode visited_1 = TestCommon.getNewActivityNode();
         ActivityNode visited_2 = TestCommon.getNewActivityNode();

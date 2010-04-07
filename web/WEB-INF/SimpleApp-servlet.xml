@@ -9,7 +9,8 @@
 
     <bean name="intelligentGraph" class="com.rajiv.intelligence.graph.IntelligentGraph">
         <constructor-arg index="0" value="index"/>
-        <constructor-arg index="1" value="10"/>
+        <constructor-arg index="1" value="3"/>
+        <constructor-arg index="2" value="1"/>
     </bean>
 
     <bean name="graphAnalyzer" class="com.rajiv.intelligence.graph.GraphAnalyzer"/>

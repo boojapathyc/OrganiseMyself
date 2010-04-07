@@ -36,11 +36,11 @@ public class GraphController {
     }
 
     private ActivityNode activityNode(String page, PageData pageData) {
-        return new ActivityNode(new RequestData(page), pageData);
+        return new ActivityNode(new RequestData(page), pageData, intelligentGraph.getThresholdNavigationsForContentTruncation(), intelligentGraph.getThresholdWeightForContentTruncation());
     }
 
     private ActivityNode activityNode(String page) {
-        return new ActivityNode(new RequestData(page), new PageData());
+        return new ActivityNode(new RequestData(page), new PageData(), intelligentGraph.getThresholdNavigationsForContentTruncation(), intelligentGraph.getThresholdWeightForContentTruncation());
     }
 
     public String maxNavigatedPage(String sourcePage, String currentPageId) {
@@ -52,8 +52,9 @@ public class GraphController {
         intelligentGraph.incrementWeight(sourceNode, visited);
         NavigationPath path = graphAnalyzer.getMaxNavigationPath(intelligentGraph, visited);
         if (path != null) {
-            System.out.println("page i would go to" + intelligentGraph.getDestination(path).getRequestData().getId() +
-                    " :" + path.getWeight());
+            ActivityNode node = intelligentGraph.getDestination(path);
+            System.out.println("page i would go to" + node.getRequestData().getId() +
+                    " weight:" + path.getWeight() + " no of Navigations on visited Node: " + node.getNoOfNavigations());
             return intelligentGraph.getDestination(path).getRequestData().getId();
         }
 
@@ -64,10 +65,8 @@ public class GraphController {
         ActivityNode sourceNode = activityNode(currentPage);
         Collection<ActivityNode> sortedTargetNodes = intelligentGraph.sortDestinationsOnEdgeWeight(sourceNode);
         Map<String, ActivityNode> sortedTargetWithContent = new LinkedHashMap<String, ActivityNode>();
-        int targetNodeIndex = 0;
         for (ActivityNode targetNode : sortedTargetNodes) {
-            targetNodeIndex++;
-            sortedTargetWithContent.put(targetNode.getName(), intelligentGraph.getProcessedNode(sourceNode, targetNode, targetNodeIndex));
+            sortedTargetWithContent.put(targetNode.getName(), targetNode);
         }
         return sortedTargetWithContent;
     }

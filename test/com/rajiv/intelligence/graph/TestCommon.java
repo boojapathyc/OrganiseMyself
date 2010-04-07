@@ -5,6 +5,6 @@ import com.rajiv.model.PageData;
 public class TestCommon {
 
     public static ActivityNode getNewActivityNode() {
-        return new ActivityNode(new RequestData(), new PageData());
+        return new ActivityNode(new RequestData(), new PageData(), 10L, 0);
     }
 }

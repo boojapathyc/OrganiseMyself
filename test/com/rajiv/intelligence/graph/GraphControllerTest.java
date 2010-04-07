@@ -12,7 +12,7 @@ public class GraphControllerTest {
 
     @Test
     public void testCreateVertices() {
-        IntelligentGraph intelligentGraph = new IntelligentGraph("index", 0L);
+        IntelligentGraph intelligentGraph = new IntelligentGraph("index", 0L, 0);
         Map<String, PageData> pages = new HashMap<String, PageData>() {
             {
                 put("a", new PageData("abcd", "abcd"));
